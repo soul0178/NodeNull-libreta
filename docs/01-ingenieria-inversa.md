@@ -112,6 +112,8 @@ por semestres y carreras con promedio ponderado por créditos.
 | CU-13 | Exportar reporte PDF | RF-21 |
 | CU-14 | Sincronizar con la nube | RF-23 |
 
+![Casos de uso](img/01-casos-de-uso.png)
+
 ```mermaid
 flowchart LR
   E([Estudiante]) --- CU01(CU-01 Gestionar cursos)
@@ -134,6 +136,10 @@ flowchart LR
 ```
 
 ## 7. Modelo de dominio
+
+![Modelo de dominio](img/02-modelo-de-dominio.png)
+
+(Fuente editable en `docs/diagramas/02-modelo-de-dominio.mmd`.)
 
 Entidades y objetos de valor identificados en `state`:
 

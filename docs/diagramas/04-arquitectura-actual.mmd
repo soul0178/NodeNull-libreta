@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph Navegador
+    UI[render.js / events.js / modals.js]
+    CALC[calc.js - lógica]
+    STATE[state.js - estado global]
+    SYNC[cloud-sync.js]
+    LS[(localStorage)]
+  end
+  UI --> CALC
+  UI --> STATE
+  CALC --> STATE
+  STATE --> LS
+  STATE --> SYNC
+  SYNC --> FS[(Firestore)]

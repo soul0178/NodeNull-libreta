@@ -1,0 +1,9 @@
+flowchart LR
+  C([Commit / push en GitHub]) --> B[1. Build<br/>Maven]
+  B --> S[2. Análisis estático<br/>SonarQube]
+  S --> U[3. Pruebas unitarias<br/>JUnit + Mockito + JaCoCo]
+  U --> F[4. Pruebas funcionales<br/>Selenium]
+  F --> P[5. Rendimiento<br/>JMeter]
+  P --> Z[6. Seguridad<br/>OWASP ZAP]
+  Z --> D[7. Despliegue<br/>Docker]
+  D --> N([8. Notificación e issues])

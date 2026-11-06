@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1046" viewBox="0 0 760 1046" font-family="Helvetica, Arial, sans-serif" font-size="14">
+<rect width="760" height="1046" fill="white"/>
+<rect x="230" y="30" width="340" height="986" fill="#fafaff" stroke="#555" stroke-width="2"/>
+<text x="400" y="62" text-anchor="middle" font-size="17" font-weight="700">Sistema Libreta</text>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#444" stroke-width="1.5"/></marker></defs>
+<line x1="112" y1="513" x2="260" y2="110" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="174" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="238" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="302" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="366" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="430" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="494" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="558" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="622" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="686" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="750" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="814" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="878" stroke="#444" stroke-width="1.2"/>
+<line x1="112" y1="513" x2="260" y2="942" stroke="#444" stroke-width="1.2"/>
+<line x1="540" y1="942" x2="670" y2="932" stroke="#444" stroke-width="1.2"/>
+<line x1="460" y1="196" x2="460" y2="215" stroke="#444" stroke-dasharray="6 4" marker-end="url(#a)"/>
+<text x="466" y="210" font-size="12" font-style="italic">&lt;&lt;include&gt;&gt;</text>
+<line x1="460" y1="580" x2="460" y2="599" stroke="#444" stroke-dasharray="6 4" marker-end="url(#a)"/>
+<text x="466" y="594" font-size="12" font-style="italic">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="400" cy="110" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="115" text-anchor="middle">CU-01 Gestionar cursos</text>
+<ellipse cx="400" cy="174" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="179" text-anchor="middle">CU-02 Registrar notas</text>
+<ellipse cx="400" cy="238" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="243" text-anchor="middle">CU-03 Ver proyección y estado</text>
+<ellipse cx="400" cy="302" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="307" text-anchor="middle">CU-04 Gestionar meta</text>
+<ellipse cx="400" cy="366" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="371" text-anchor="middle">CU-05 Simular nota necesaria</text>
+<ellipse cx="400" cy="430" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="435" text-anchor="middle">CU-06 Aplicar sustitutorio</text>
+<ellipse cx="400" cy="494" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="499" text-anchor="middle">CU-07 Gestionar carreras</text>
+<ellipse cx="400" cy="558" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="563" text-anchor="middle">CU-08 Cerrar o reabrir semestre</text>
+<ellipse cx="400" cy="622" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="627" text-anchor="middle">CU-11 Ver logros</text>
+<ellipse cx="400" cy="686" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="691" text-anchor="middle">CU-09 Registrar semestre pasado</text>
+<ellipse cx="400" cy="750" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="755" text-anchor="middle">CU-10 Ver promedios y gráficos</text>
+<ellipse cx="400" cy="814" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="819" text-anchor="middle">CU-12 Exportar e importar respaldo</text>
+<ellipse cx="400" cy="878" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="883" text-anchor="middle">CU-13 Exportar reporte PDF</text>
+<ellipse cx="400" cy="942" rx="140" ry="22" fill="#e9ecff" stroke="#5b5fc7" stroke-width="1.6"/>
+<text x="400" y="947" text-anchor="middle">CU-14 Sincronizar con la nube</text>
+<g stroke="#222" stroke-width="2" fill="none"><circle cx="90" cy="489" r="12"/><line x1="90" y1="501" x2="90" y2="537"/><line x1="68" y1="513" x2="112" y2="513"/><line x1="90" y1="537" x2="72" y2="565"/><line x1="90" y1="537" x2="108" y2="565"/></g><text x="90" y="587" text-anchor="middle" font-size="15" font-weight="600">Estudiante</text>
+<g stroke="#222" stroke-width="2" fill="none"><circle cx="670" cy="908" r="12"/><line x1="670" y1="920" x2="670" y2="956"/><line x1="648" y1="932" x2="692" y2="932"/><line x1="670" y1="956" x2="652" y2="984"/><line x1="670" y1="956" x2="688" y2="984"/></g><text x="670" y="1006" text-anchor="middle" font-size="15" font-weight="600">Google / Firebase</text>
+</svg>

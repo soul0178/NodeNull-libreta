@@ -1,0 +1,9 @@
+flowchart LR
+  FE[Frontend HTML + JS + CSS] -->|REST JSON| API
+  subgraph Backend Spring Boot
+    API[infrastructure.web<br/>Controllers] --> APP[application<br/>Servicios]
+    APP --> DOM[domain<br/>Entidades y servicios]
+    APP --> PORT[domain.repository<br/>Interfaces]
+    INFRA[infrastructure.persistence<br/>JPA] -.implementa.-> PORT
+  end
+  INFRA --> DB[(PostgreSQL)]
