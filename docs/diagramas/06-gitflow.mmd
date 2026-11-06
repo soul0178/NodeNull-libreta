@@ -1,0 +1,20 @@
+%%{init: {"gitGraph": {"mainBranchName": "master"}}}%%
+gitGraph
+  commit id: "v0.1-baseline"
+  branch desarrollo
+  checkout desarrollo
+  commit id: "docs fase 1 y 2"
+  branch feature/1-spring-boot-ddd
+  checkout feature/1-spring-boot-ddd
+  commit id: "test (rojo)"
+  commit id: "feat (verde)"
+  checkout desarrollo
+  merge feature/1-spring-boot-ddd id: "closes #1"
+  branch feature/2-domain-entities
+  checkout feature/2-domain-entities
+  commit id: "test #2"
+  commit id: "feat #2"
+  checkout desarrollo
+  merge feature/2-domain-entities id: "closes #2"
+  checkout master
+  merge desarrollo id: "release v0.2.0" tag: "v0.2.0"

@@ -1,0 +1,41 @@
+classDiagram
+  class Career { +String id +String name +rename(newName) }
+  class Course {
+    +String id
+    +String name
+    +int credits
+    +int goal
+    +boolean archived
+    +setGrade(slot, grade)
+    +changeWeights(weights)
+    +archive()
+  }
+  class EvaluationSlot {
+    <<enumeration>>
+    CONTINUA_1
+    PARCIAL_1
+    CONTINUA_2
+    PARCIAL_2
+    CONTINUA_3
+    PARCIAL_3
+    +unit() int
+    +type() EvaluationType
+  }
+  class Substitute { +int value +EvaluationSlot target +Integer originalValue }
+  class Semester {
+    +String id
+    +String label
+    +long closedAt
+  }
+  class GradeCalculator {
+    <<servicio de dominio>>
+    +accumulated(course) double
+    +remainingWeight(course) double
+    +projection(course) Optional
+    +trendSlope(course) double
+  }
+  Career "1" --> "0..*" Course : agrupa
+  Course "1" *-- "6" EvaluationSlot : notas y pesos
+  Course "1" *-- "0..1" Substitute
+  Semester "1" *-- "0..*" Course : snapshot
+  GradeCalculator ..> Course : calcula

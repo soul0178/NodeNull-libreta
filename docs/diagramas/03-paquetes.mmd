@@ -1,0 +1,20 @@
+flowchart TB
+  subgraph infrastructure
+    WEB[infrastructure.web<br/>Controllers REST, DTOs]
+    PER[infrastructure.persistence<br/>Entidades JPA, adaptadores]
+  end
+  subgraph application
+    APP[application<br/>Servicios de aplicación, casos de uso]
+  end
+  subgraph domain
+    MOD[domain.model<br/>Career, Course, Substitute, EvaluationSlot]
+    SRV[domain.service<br/>GradeCalculator]
+    REP[domain.repository<br/>interfaces de repositorio]
+  end
+  WEB --> APP
+  APP --> MOD
+  APP --> SRV
+  APP --> REP
+  SRV --> MOD
+  REP --> MOD
+  PER -.implementa.-> REP
