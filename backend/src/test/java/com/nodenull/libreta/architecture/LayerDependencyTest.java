@@ -23,15 +23,15 @@ class LayerDependencyTest {
         List<String> prohibidos = List.of(
                 "org.springframework", "jakarta.persistence",
                 "com.nodenull.libreta.application", "com.nodenull.libreta.infrastructure");
-        assertTrue(importsEn("domain", prohibidos).isEmpty(),
-                () -> "El dominio importa algo prohibido: " + importsEn("domain", prohibidos));
+        List<String> violaciones = importsEn("domain", prohibidos);
+        assertTrue(violaciones.isEmpty(), "El dominio importa algo prohibido: " + violaciones);
     }
 
     @Test
     void application_noDependeDeInfraestructura() throws IOException {
         List<String> prohibidos = List.of("com.nodenull.libreta.infrastructure");
-        assertTrue(importsEn("application", prohibidos).isEmpty(),
-                () -> "La aplicación importa infraestructura: " + importsEn("application", prohibidos));
+        List<String> violaciones = importsEn("application", prohibidos);
+        assertTrue(violaciones.isEmpty(), "La aplicación importa infraestructura: " + violaciones);
     }
 
     private List<String> importsEn(String capa, List<String> prohibidos) throws IOException {
