@@ -39,6 +39,8 @@ function openCreateModal(){
     const creditos=parseFloat(document.getElementById('new-creditos').value)||0;
     const sum=getWeightSum();
     if(!name){ document.getElementById('create-err').textContent='Ponle un nombre al curso.'; return; }
+    const invalid=validateCreditsAndWeights(document.getElementById('new-creditos').value);
+    if(invalid){ document.getElementById('create-err').textContent=invalid; return; }
     if(Math.abs(sum-100)>0.5){ document.getElementById('create-err').textContent='Los pesos deben sumar 100%.'; return; }
     const weights=Array.from(document.querySelectorAll('.w-input')).map(i=>parseFloat(i.value||0)/100);
     const course=newCourseSkeleton();
@@ -54,6 +56,18 @@ function getWeightSum(){ return Array.from(document.querySelectorAll('.w-input')
 function updateWeightSum(){
   const sum=getWeightSum(); const el=document.getElementById('weight-sum');
   el.textContent=`Suma actual: ${sum.toFixed(1)}%`; el.className='weight-sum '+(Math.abs(sum-100)<=0.5?'ok':'bad');
+}
+
+/** Valida créditos (entero >= 0 o vacío) y pesos (>= 0). Devuelve el mensaje de error o ''. */
+function validateCreditsAndWeights(creditsRaw){
+  const raw=String(creditsRaw).trim();
+  if(raw!==''){
+    const n=Number(raw);
+    if(!Number.isInteger(n)||n<0) return 'Los créditos deben ser un número entero mayor o igual a 0.';
+  }
+  const hasNegative=Array.from(document.querySelectorAll('.w-input')).some(i=>parseFloat(i.value||0)<0);
+  if(hasNegative) return 'Los pesos no pueden ser negativos.';
+  return '';
 }
 
 function openEditCourseModal(id){
@@ -79,6 +93,8 @@ function openEditCourseModal(id){
   document.querySelectorAll('.w-input').forEach(i=>i.addEventListener('input', updateWeightSum));
   document.getElementById('confirm-edit').addEventListener('click', ()=>{
     const sum=getWeightSum();
+    const invalid=validateCreditsAndWeights(document.getElementById('edit-creditos').value);
+    if(invalid){ document.getElementById('create-err').textContent=invalid; return; }
     if(Math.abs(sum-100)>0.5){ document.getElementById('create-err').textContent='Los pesos deben sumar 100%.'; return; }
     c.careerId=document.getElementById('edit-career').value;
     c.creditos=parseFloat(document.getElementById('edit-creditos').value)||0;
