@@ -89,6 +89,16 @@ public final class Course {
         this.substitute = null;
     }
 
+    /** Copia independiente del curso (para guardar el semestre sin que cambios posteriores lo afecten). */
+    public Course copy() {
+        Course copy = new Course(id, name, careerId, credits, weights);
+        copy.goal = goal;
+        copy.archived = archived;
+        copy.substitute = substitute; // record inmutable: se puede compartir
+        System.arraycopy(grades, 0, copy.grades, 0, grades.length);
+        return copy;
+    }
+
     // ---------- consultas ----------
 
     public String id() {
