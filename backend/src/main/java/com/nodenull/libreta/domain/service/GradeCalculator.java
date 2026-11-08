@@ -3,6 +3,8 @@ package com.nodenull.libreta.domain.service;
 import com.nodenull.libreta.domain.model.Course;
 import com.nodenull.libreta.domain.model.EvaluationSlot;
 import com.nodenull.libreta.domain.model.Substitute;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,11 @@ import java.util.Optional;
  * Port de js/calc.js (v0.1). Sin dependencias de frameworks.
  */
 public class GradeCalculator {
+
+    /** Nota mínima aprobatoria (RN-03). */
+    public static final double PASS_GRADE = 10.5;
+    /** Por debajo de este peso se considera que no queda nada pendiente. */
+    public static final double PENDING_EPSILON = 0.0001;
 
     private static final double MIN = Course.MIN_GRADE;
     private static final double MAX = Course.MAX_GRADE;
@@ -96,6 +103,26 @@ public class GradeCalculator {
             return 0;
         }
         return fit(course).map(LinearFit::slope).orElse(0.0);
+    }
+
+    /**
+     * Nota final del curso: el acumulado si ya no queda peso pendiente; si no, la proyección.
+     * Vacío si falta peso y no hay ninguna nota para proyectar.
+     */
+    public Optional<Double> finalValue(Course course) {
+        if (remainingWeight(course) <= PENDING_EPSILON) {
+            return Optional.of(accumulated(course));
+        }
+        return projection(course);
+    }
+
+    /** Redondea al entero más cercano (mitad hacia arriba), corrigiendo ruido de punto flotante. */
+    public int roundGrade(double value) {
+        if (Double.isNaN(value)) {
+            return 0;
+        }
+        double cleaned = new BigDecimal(value).setScale(4, RoundingMode.HALF_UP).doubleValue();
+        return (int) Math.floor(cleaned + 0.5);
     }
 
     // ---------- internos ----------
