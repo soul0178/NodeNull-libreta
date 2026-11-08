@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -102,9 +103,14 @@ public class LibretaPage {
         return this;
     }
 
-    /** Espera a que aparezca un mensaje de error en el formulario y lo devuelve. */
+    /** Espera a que aparezca un mensaje de error; si la app no lo muestra, falla la prueba con un mensaje claro. */
     public String waitForError() {
-        wait.until(d -> !d.findElement(ERROR).getText().isBlank());
+        try {
+            wait.until(d -> !d.findElement(ERROR).getText().isBlank());
+        } catch (TimeoutException e) {
+            throw new AssertionError("Se esperaba un mensaje de validación, pero la aplicación aceptó el dato "
+                    + "(modal abierto: " + isModalOpen() + ")");
+        }
         return driver.findElement(ERROR).getText();
     }
 
@@ -150,10 +156,7 @@ public class LibretaPage {
         startEditingGrade(index);
         By input = By.cssSelector(".val[data-idx='" + index + "'] input");
         WebElement field = driver.findElement(input);
-        field.clear();
-        if (!raw.isEmpty()) {
-            field.sendKeys(raw);
-        }
+        replaceWithoutBlur(field, raw);
         field.sendKeys(Keys.ENTER);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(input));
         return this;
@@ -164,8 +167,7 @@ public class LibretaPage {
         startEditingGrade(index);
         By input = By.cssSelector(".val[data-idx='" + index + "'] input");
         WebElement field = driver.findElement(input);
-        field.clear();
-        field.sendKeys(raw);
+        replaceWithoutBlur(field, raw);
         field.sendKeys(Keys.ESCAPE);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(input));
         return this;
@@ -215,6 +217,21 @@ public class LibretaPage {
     public LibretaPage waitForModalClosed() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(OVERLAY));
         return this;
+    }
+
+    /**
+     * Reemplaza el contenido borrando con BACKSPACE. No se usa WebElement.clear() porque dispara "blur",
+     * y en la celda de nota la app interpreta el blur como "confirmar" y redibuja (StaleElementReference).
+     */
+    private static void replaceWithoutBlur(WebElement field, String value) {
+        String current = field.getAttribute("value");
+        field.sendKeys(Keys.END);
+        for (int i = 0; current != null && i < current.length(); i++) {
+            field.sendKeys(Keys.BACK_SPACE);
+        }
+        if (!value.isEmpty()) {
+            field.sendKeys(value);
+        }
     }
 
     private static void type(WebElement field, String value) {
