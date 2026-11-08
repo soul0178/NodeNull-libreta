@@ -3,6 +3,7 @@ package com.nodenull.libreta.application;
 import static com.nodenull.libreta.domain.model.CourseFixtures.DEFAULT_WEIGHTS;
 import static com.nodenull.libreta.domain.model.CourseFixtures.courseNamed;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -205,5 +206,52 @@ class CourseApplicationServiceTest {
         assertThrows(CourseNotFoundException.class, () -> service.delete("x"));
 
         verify(repository, never()).deleteById(any(String.class));
+    }
+
+    // ---------- operaciones complementarias ----------
+
+    @Test
+    void cambiarPesos_actualizaYGuarda() {
+        Course course = courseNamed("c-1", "Cálculo");
+        when(repository.findById("c-1")).thenReturn(Optional.of(course));
+
+        service.changeWeights("c-1", new double[] {0.3, 0, 0.3, 0, 0.4, 0});
+
+        assertEquals(0.4, course.weightAt(EvaluationSlot.CONTINUA_3), 1e-9);
+        verify(repository).save(course);
+    }
+
+    @Test
+    void cambiarMeta_actualizaYGuarda() {
+        Course course = courseNamed("c-1", "Cálculo");
+        when(repository.findById("c-1")).thenReturn(Optional.of(course));
+
+        service.changeGoal("c-1", 15);
+
+        assertEquals(15, course.goal());
+        verify(repository).save(course);
+    }
+
+    @Test
+    void desarchivar_restauraElCursoYLoGuarda() {
+        Course course = courseNamed("c-1", "Cálculo");
+        course.archive();
+        when(repository.findById("c-1")).thenReturn(Optional.of(course));
+
+        service.unarchive("c-1");
+
+        assertFalse(course.isArchived());
+        verify(repository).save(course);
+    }
+
+    @Test
+    void quitarSustitutorio_loBorraYGuarda() {
+        Course course = courseNamed("c-1", "Cálculo", null, 10, null, 15, null, null);
+        when(repository.findById("c-1")).thenReturn(Optional.of(course));
+        service.applySubstitute("c-1", 18);
+
+        service.removeSubstitute("c-1");
+
+        assertTrue(course.substitute().isEmpty());
     }
 }
