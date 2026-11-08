@@ -97,8 +97,8 @@ Pipeline en Jenkins disparado por cada commit al repositorio (issues #18 a #24).
 |---|---|---|
 | Construcción automática | Maven | Configurado localmente |
 | Análisis estático | SonarQube | Pendiente |
-| Pruebas unitarias | JUnit 5 + Mockito + JaCoCo | En progreso |
-| Pruebas funcionales | Selenium | Pendiente |
+| Pruebas unitarias | JUnit 5 + Mockito + JaCoCo | Hecho (134 pruebas, 97 % de cobertura) |
+| Pruebas funcionales | Selenium + JUnit 5 | Hecho local (32 pruebas); falta integrarlo al pipeline |
 | Pruebas de rendimiento | JMeter | Pendiente |
 | Pruebas de seguridad | OWASP ZAP | Pendiente |
 | Gestión de issues | GitHub Issues + Project | Activo |
@@ -121,20 +121,58 @@ Pipeline en Jenkins disparado por cada commit al repositorio (issues #18 a #24).
 
 ```bash
 cd backend
-mvn test                 # pruebas unitarias
+mvn test                 # pruebas unitarias y de integración (134)
+mvn verify               # además exige >= 80 % de cobertura en domain y application (JaCoCo)
 mvn spring-boot:run      # API en http://localhost:8080
 ```
+
+Reportes (Lab 05): `./scripts/generar-reportes.sh` los deja en `docs/reportes/`
+(`ejecucion/surefire-report.html` y `cobertura/index.html`). Casos de prueba: [`docs/pruebas/lab05-casos-de-prueba.md`](docs/pruebas/lab05-casos-de-prueba.md).
+
+**Pruebas funcionales** (Selenium + JUnit 5, Chrome o Firefox; Lab 06):
+
+```bash
+cd pruebas-funcionales
+mvn test                              # 32 pruebas, navegador sin ventana
+mvn test -Dheadless=false             # con ventana
+mvn test -Dbrowser=firefox            # otro navegador
+```
+
+El reporte HTML queda en `pruebas-funcionales/target/site/surefire-report.html`. Casos de prueba:
+[`docs/pruebas/lab06-casos-de-prueba.md`](docs/pruebas/lab06-casos-de-prueba.md).
 
 **Frontend** (sin build): abrir `index.html` o servirlo con `python3 -m http.server 8000`.
 Pruebas del frontend: `npm install && npm test` (Vitest). Detalles en [`docs/manual-frontend.md`](docs/manual-frontend.md).
 
 ## 10. Estado actual
 
+Línea base: `v0.1-baseline`. Versión en desarrollo: `0.2.0-SNAPSHOT`.
+
 | Issue | Descripción | Estado |
 |---|---|---|
 | #1 | Proyecto Spring Boot con estructura DDD | Hecho |
 | #2 | Entidades `Career` y `Course` con invariantes | Hecho |
 | #3 | Acumulado, proyección y tendencia (`GradeCalculator`) | Hecho |
-| #4 a #24 | Resto del backlog | Ver tablero |
+| #4 | Estado de aprobación, meta, redondeo y nota final | Hecho |
+| #5 | Sustitutorio en el dominio | Hecho |
+| #6 | `Semester` y cierre/reapertura | Hecho |
+| #7 | Repositorios JPA de `Course` y `Semester` | Hecho |
+| #8 | Servicios de aplicación con Mockito | Hecho |
+| #14 | JaCoCo y reportes de cobertura | Hecho |
+| #19 | Pruebas funcionales con Selenium | Hecho |
+| #25 | Documentación: README, diagramas y políticas | Hecho |
+| #26 | Corregir validación de créditos y pesos (defectos hallados por Selenium) | Hecho |
+| #9 a #13 | API REST, OpenAPI y conexión del frontend | Pendiente |
+| #15 a #18 | Seguridad (Firestore, XSS, configuración) y Docker | Pendiente |
+| #20 a #24 | JMeter, ZAP, Jenkins, SonarQube y notificaciones | Pendiente |
+
+**Calidad actual**
+
+| Indicador | Valor |
+|---|---|
+| Pruebas de backend (JUnit 5 + Mockito) | 134 pasan, 0 fallos |
+| Cobertura JaCoCo (instrucciones / ramas) | 97 % / 87 % |
+| Pruebas funcionales (Selenium) | 32 pasan, 0 fallos |
+| Defectos corregidos | 3 (DEF-01, DEF-02 y DEF-03; ver `docs/pruebas/lab06-casos-de-prueba.md`) |
 
 Se actualiza este README al cerrar cada issue.
