@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GradeCalculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.service</a> &gt; <span class="el_source">GradeCalculator.java</span></div><h1>GradeCalculator.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.service;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.EvaluationSlot;
+import com.nodenull.libreta.domain.model.Substitute;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Servicio de dominio: acumulado, peso restante, proyección y tendencia de un curso.
+ * Port de js/calc.js (v0.1). Sin dependencias de frameworks.
+ */
+<span class="fc" id="L16">public class GradeCalculator {</span>
+
+    /** Nota mínima aprobatoria (RN-03). */
+    public static final double PASS_GRADE = 10.5;
+    /** Por debajo de este peso se considera que no queda nada pendiente. */
+    public static final double PENDING_EPSILON = 0.0001;
+
+    private static final double MIN = Course.MIN_GRADE;
+    private static final double MAX = Course.MAX_GRADE;
+    private static final double EPSILON = 1e-9;
+
+    /** Notas efectivas: las ingresadas, con el sustitutorio reemplazando su evaluación objetivo. */
+    public Double[] effectiveGrades(Course course) {
+<span class="fc" id="L29">        Double[] effective = new Double[EvaluationSlot.COUNT];</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        for (EvaluationSlot slot : EvaluationSlot.values()) {</span>
+<span class="fc" id="L31">            Integer grade = course.gradeAt(slot);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            effective[slot.index()] = grade == null ? null : grade.doubleValue();</span>
+        }
+<span class="fc" id="L34">        Optional&lt;Substitute&gt; substitute = course.substitute();</span>
+<span class="fc" id="L35">        substitute.ifPresent(s -&gt; effective[s.target().index()] = (double) s.value());</span>
+<span class="fc" id="L36">        return effective;</span>
+    }
+
+    public List&lt;EvaluationSlot&gt; enteredSlots(Course course) {
+<span class="fc" id="L40">        Double[] effective = effectiveGrades(course);</span>
+<span class="fc" id="L41">        List&lt;EvaluationSlot&gt; entered = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (EvaluationSlot slot : EvaluationSlot.values()) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (effective[slot.index()] != null) {</span>
+<span class="fc" id="L44">                entered.add(slot);</span>
+            }
+        }
+<span class="fc" id="L47">        return entered;</span>
+    }
+
+    public List&lt;EvaluationSlot&gt; missingSlots(Course course) {
+<span class="fc" id="L51">        List&lt;EvaluationSlot&gt; entered = enteredSlots(course);</span>
+<span class="fc" id="L52">        List&lt;EvaluationSlot&gt; missing = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (EvaluationSlot slot : EvaluationSlot.values()) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            if (!entered.contains(slot)) {</span>
+<span class="fc" id="L55">                missing.add(slot);</span>
+            }
+        }
+<span class="fc" id="L58">        return missing;</span>
+    }
+
+    /** Suma ponderada de lo ingresado. */
+    public double accumulated(Course course) {
+<span class="fc" id="L63">        Double[] effective = effectiveGrades(course);</span>
+<span class="fc" id="L64">        double sum = 0;</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (EvaluationSlot slot : enteredSlots(course)) {</span>
+<span class="fc" id="L66">            sum += effective[slot.index()] * course.weightAt(slot);</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        return sum;</span>
+    }
+
+    /** Peso (fracción) de las evaluaciones aún sin nota. */
+    public double remainingWeight(Course course) {
+<span class="fc" id="L73">        double weight = 0;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (EvaluationSlot slot : missingSlots(course)) {</span>
+<span class="fc" id="L75">            weight += course.weightAt(slot);</span>
+<span class="fc" id="L76">        }</span>
+<span class="fc" id="L77">        return weight;</span>
+    }
+
+    /**
+     * Nota final proyectada: lo ingresado más una recta de tendencia por unidad para lo faltante,
+     * acotada a [0, 20]. Vacío si no hay ninguna nota.
+     */
+    public Optional&lt;Double&gt; projection(Course course) {
+<span class="fc" id="L85">        Optional&lt;LinearFit&gt; fit = fit(course);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (fit.isEmpty()) {</span>
+<span class="fc" id="L87">            return Optional.empty();</span>
+        }
+<span class="fc" id="L89">        Double[] full = effectiveGrades(course);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (EvaluationSlot slot : missingSlots(course)) {</span>
+<span class="fc" id="L91">            full[slot.index()] = clip(fit.get().predict(slot.unit()));</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">        double sum = 0;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (EvaluationSlot slot : EvaluationSlot.values()) {</span>
+<span class="fc" id="L95">            sum += full[slot.index()] * course.weightAt(slot);</span>
+        }
+<span class="fc" id="L97">        return Optional.of(sum);</span>
+    }
+
+    /** Pendiente de la tendencia entre unidades; 0 con menos de dos notas. */
+    public double trendSlope(Course course) {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (enteredSlots(course).size() &lt; 2) {</span>
+<span class="fc" id="L103">            return 0;</span>
+        }
+<span class="fc" id="L105">        return fit(course).map(LinearFit::slope).orElse(0.0);</span>
+    }
+
+    /**
+     * Nota final del curso: el acumulado si ya no queda peso pendiente; si no, la proyección.
+     * Vacío si falta peso y no hay ninguna nota para proyectar.
+     */
+    public Optional&lt;Double&gt; finalValue(Course course) {
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (remainingWeight(course) &lt;= PENDING_EPSILON) {</span>
+<span class="fc" id="L114">            return Optional.of(accumulated(course));</span>
+        }
+<span class="fc" id="L116">        return projection(course);</span>
+    }
+
+    /** Redondea al entero más cercano (mitad hacia arriba), corrigiendo ruido de punto flotante. */
+    public int roundGrade(double value) {
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (Double.isNaN(value)) {</span>
+<span class="nc" id="L122">            return 0;</span>
+        }
+<span class="fc" id="L124">        double cleaned = new BigDecimal(value).setScale(4, RoundingMode.HALF_UP).doubleValue();</span>
+<span class="fc" id="L125">        return (int) Math.floor(cleaned + 0.5);</span>
+    }
+
+    // ---------- internos ----------
+
+    private Optional&lt;LinearFit&gt; fit(Course course) {
+<span class="fc" id="L131">        List&lt;EvaluationSlot&gt; entered = enteredSlots(course);</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if (entered.isEmpty()) {</span>
+<span class="fc" id="L133">            return Optional.empty();</span>
+        }
+<span class="fc" id="L135">        Double[] effective = effectiveGrades(course);</span>
+<span class="fc" id="L136">        List&lt;Point&gt; points = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        for (EvaluationSlot slot : entered) {</span>
+<span class="fc" id="L138">            double weight = course.weightAt(slot);</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">            if (weight &gt; 0) {</span>
+<span class="fc" id="L140">                points.add(new Point(slot.unit(), effective[slot.index()], weight));</span>
+            }
+<span class="fc" id="L142">        }</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (points.isEmpty()) { // respaldo: peso igual si todo lo ingresado pesa 0 %</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            for (EvaluationSlot slot : entered) {</span>
+<span class="fc" id="L145">                points.add(new Point(slot.unit(), effective[slot.index()], 1));</span>
+<span class="fc" id="L146">            }</span>
+        }
+<span class="fc" id="L148">        return Optional.of(LinearFit.of(points));</span>
+    }
+
+    private static double clip(double value) {
+<span class="fc" id="L152">        return Math.max(MIN, Math.min(MAX, value));</span>
+    }
+
+<span class="fc" id="L155">    private record Point(double x, double y, double weight) {</span>
+    }
+
+    /** Regresión lineal ponderada, centrada en la media ponderada para ser estable con pesos decimales. */
+<span class="fc" id="L159">    private record LinearFit(double slope, double intercept) {</span>
+
+        static LinearFit of(List&lt;Point&gt; points) {
+<span class="fc" id="L162">            double totalWeight = points.stream().mapToDouble(Point::weight).sum();</span>
+<span class="fc" id="L163">            double xMean = points.stream().mapToDouble(p -&gt; p.weight() * p.x()).sum() / totalWeight;</span>
+<span class="fc" id="L164">            double yMean = points.stream().mapToDouble(p -&gt; p.weight() * p.y()).sum() / totalWeight;</span>
+<span class="fc" id="L165">            double sxx = 0;</span>
+<span class="fc" id="L166">            double sxy = 0;</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            for (Point p : points) {</span>
+<span class="fc" id="L168">                sxx += p.weight() * (p.x() - xMean) * (p.x() - xMean);</span>
+<span class="fc" id="L169">                sxy += p.weight() * (p.x() - xMean) * (p.y() - yMean);</span>
+<span class="fc" id="L170">            }</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (sxx &lt; EPSILON) { // todos en la misma unidad: línea plana en el promedio</span>
+<span class="fc" id="L172">                return new LinearFit(0, yMean);</span>
+            }
+<span class="fc" id="L174">            double slope = sxy / sxx;</span>
+<span class="fc" id="L175">            return new LinearFit(slope, yMean - slope * xMean);</span>
+        }
+
+        double predict(double x) {
+<span class="fc" id="L179">            return slope * x + intercept;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

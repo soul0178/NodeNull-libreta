@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubstituteService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.service</a> &gt; <span class="el_source">SubstituteService.java</span></div><h1>SubstituteService.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.service;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.EvaluationSlot;
+import com.nodenull.libreta.domain.model.Substitute;
+import com.nodenull.libreta.domain.model.SubstituteOutcome;
+
+/**
+ * Servicio de dominio: aplica el examen sustitutorio, que reemplaza el parcial más bajo
+ * (de P1 y P2) si lo supera (RN-06). Port de applySustitutorio de calc.js.
+ */
+public class SubstituteService {
+
+    private final GradeCalculator calculator;
+
+<span class="fc" id="L16">    public SubstituteService(GradeCalculator calculator) {</span>
+<span class="fc" id="L17">        this.calculator = calculator;</span>
+<span class="fc" id="L18">    }</span>
+
+    public SubstituteOutcome apply(Course course, int value) {
+<span class="fc" id="L21">        Double[] effective = calculator.effectiveGrades(course);</span>
+<span class="fc" id="L22">        Double midterm1 = effective[EvaluationSlot.PARCIAL_1.index()];</span>
+<span class="fc" id="L23">        Double midterm2 = effective[EvaluationSlot.PARCIAL_2.index()];</span>
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        if (midterm1 == null &amp;&amp; midterm2 == null) {</span>
+<span class="fc" id="L25">            return SubstituteOutcome.NO_MIDTERM_ENTERED;</span>
+        }
+<span class="fc" id="L27">        EvaluationSlot target = chooseTarget(midterm1, midterm2);</span>
+<span class="fc" id="L28">        Double currentLowest = effective[target.index()];</span>
+<span class="pc bpc" id="L29" title="1 of 4 branches missed.">        if (currentLowest != null &amp;&amp; value &lt;= currentLowest) {</span>
+<span class="fc" id="L30">            return SubstituteOutcome.NOT_HIGHER_THAN_LOWEST;</span>
+        }
+<span class="fc" id="L32">        course.setSubstitute(new Substitute(value, target, course.gradeAt(target)));</span>
+<span class="fc" id="L33">        return SubstituteOutcome.APPLIED;</span>
+    }
+
+    public void remove(Course course) {
+<span class="fc" id="L37">        course.clearSubstitute();</span>
+<span class="fc" id="L38">    }</span>
+
+    private static EvaluationSlot chooseTarget(Double midterm1, Double midterm2) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (midterm1 == null) {</span>
+<span class="fc" id="L42">            return EvaluationSlot.PARCIAL_2;</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (midterm2 == null) {</span>
+<span class="fc" id="L45">            return EvaluationSlot.PARCIAL_1;</span>
+        }
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        return midterm1 &lt;= midterm2 ? EvaluationSlot.PARCIAL_1 : EvaluationSlot.PARCIAL_2;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

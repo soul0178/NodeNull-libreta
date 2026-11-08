@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CourseMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.infrastructure.persistence</a> &gt; <span class="el_source">CourseMapper.java</span></div><h1>CourseMapper.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.infrastructure.persistence;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.EvaluationSlot;
+import com.nodenull.libreta.domain.model.Substitute;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+/** Convierte entre el curso del dominio y sus columnas de persistencia. */
+final class CourseMapper {
+
+    private static final String SEPARATOR = &quot;,&quot;;
+
+    private CourseMapper() {
+    }
+
+    static void copyToColumns(Course course, CourseColumns target) {
+<span class="fc" id="L19">        target.setName(course.name());</span>
+<span class="fc" id="L20">        target.setCareerId(course.careerId());</span>
+<span class="fc" id="L21">        target.setCredits(course.credits());</span>
+<span class="fc" id="L22">        target.setGoal(course.goal());</span>
+<span class="fc" id="L23">        target.setArchived(course.isArchived());</span>
+<span class="fc" id="L24">        target.setWeights(Arrays.stream(course.weights())</span>
+<span class="fc" id="L25">                .mapToObj(Double::toString)</span>
+<span class="fc" id="L26">                .collect(Collectors.joining(SEPARATOR)));</span>
+<span class="fc" id="L27">        target.setGrades(Arrays.stream(EvaluationSlot.values())</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">                .map(slot -&gt; course.gradeAt(slot) == null ? &quot;&quot; : course.gradeAt(slot).toString())</span>
+<span class="fc" id="L29">                .collect(Collectors.joining(SEPARATOR)));</span>
+<span class="fc" id="L30">        course.substitute().ifPresentOrElse(substitute -&gt; {</span>
+<span class="fc" id="L31">            target.setSubstituteValue(substitute.value());</span>
+<span class="fc" id="L32">            target.setSubstituteTarget(substitute.target().index());</span>
+<span class="fc" id="L33">            target.setSubstituteOriginal(substitute.originalValue());</span>
+<span class="fc" id="L34">        }, () -&gt; {</span>
+<span class="fc" id="L35">            target.setSubstituteValue(null);</span>
+<span class="fc" id="L36">            target.setSubstituteTarget(null);</span>
+<span class="fc" id="L37">            target.setSubstituteOriginal(null);</span>
+<span class="fc" id="L38">        });</span>
+<span class="fc" id="L39">    }</span>
+
+    static Course toDomain(String id, CourseColumns columns) {
+<span class="fc" id="L42">        double[] weights = Arrays.stream(columns.getWeights().split(SEPARATOR))</span>
+<span class="fc" id="L43">                .mapToDouble(Double::parseDouble)</span>
+<span class="fc" id="L44">                .toArray();</span>
+<span class="fc" id="L45">        Course course = Course.create(id, columns.getName(), columns.getCareerId(), columns.getCredits(), weights);</span>
+<span class="fc" id="L46">        String[] grades = columns.getGrades().split(SEPARATOR, -1);</span>
+<span class="fc" id="L47">        IntStream.range(0, EvaluationSlot.COUNT).forEach(i -&gt; {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            if (!grades[i].isBlank()) {</span>
+<span class="fc" id="L49">                course.setGrade(EvaluationSlot.values()[i], Integer.valueOf(grades[i]));</span>
+            }
+<span class="fc" id="L51">        });</span>
+<span class="fc" id="L52">        course.changeGoal(columns.getGoal());</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (columns.isArchived()) {</span>
+<span class="fc" id="L54">            course.archive();</span>
+        }
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (columns.getSubstituteValue() != null) {</span>
+<span class="fc" id="L57">            course.setSubstitute(new Substitute(</span>
+<span class="fc" id="L58">                    columns.getSubstituteValue(),</span>
+<span class="fc" id="L59">                    EvaluationSlot.values()[columns.getSubstituteTarget()],</span>
+<span class="fc" id="L60">                    columns.getSubstituteOriginal()));</span>
+        }
+<span class="fc" id="L62">        return course;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

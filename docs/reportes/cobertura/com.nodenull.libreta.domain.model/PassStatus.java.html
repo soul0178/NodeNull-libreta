@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PassStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.model</a> &gt; <span class="el_source">PassStatus.java</span></div><h1>PassStatus.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.model;
+
+/** Estado de aprobación de un curso frente a la nota mínima (10,5). */
+<span class="fc" id="L4">public enum PassStatus {</span>
+<span class="fc" id="L5">    APROBADO(&quot;Aprobado&quot;),</span>
+<span class="fc" id="L6">    DESAPROBADO(&quot;Desaprobado&quot;),</span>
+<span class="fc" id="L7">    NO_PODRAS_APROBAR(&quot;No podrás aprobar&quot;),</span>
+<span class="fc" id="L8">    MUY_DIFICIL_APROBAR(&quot;Muy difícil aprobar&quot;),</span>
+<span class="fc" id="L9">    APROBACION_ASEGURADA(&quot;Aprobación asegurada&quot;),</span>
+<span class="fc" id="L10">    EN_CURSO(&quot;En curso&quot;);</span>
+
+    private final String label;
+
+<span class="fc" id="L14">    PassStatus(String label) {</span>
+<span class="fc" id="L15">        this.label = label;</span>
+<span class="fc" id="L16">    }</span>
+
+    public String label() {
+<span class="fc" id="L19">        return label;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SemesterService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.service</a> &gt; <span class="el_source">SemesterService.java</span></div><h1>SemesterService.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.service;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.Semester;
+import java.time.Clock;
+import java.util.List;
+
+/** Servicio de dominio: cierre de semestre (RN-07, RN-09). Port de closeSemester de semesters-courses.js. */
+public class SemesterService {
+
+    private final GradeCalculator calculator;
+    private final Clock clock;
+
+<span class="fc" id="L14">    public SemesterService(GradeCalculator calculator, Clock clock) {</span>
+<span class="fc" id="L15">        this.calculator = calculator;</span>
+<span class="fc" id="L16">        this.clock = clock;</span>
+<span class="fc" id="L17">    }</span>
+
+    /** Cursos no archivados que todavía tienen evaluaciones sin nota. */
+    public List&lt;Course&gt; incompleteCourses(List&lt;Course&gt; activeCourses) {
+<span class="fc" id="L21">        return activeCourses.stream()</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">                .filter(course -&gt; !course.isArchived())</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">                .filter(course -&gt; !calculator.missingSlots(course).isEmpty())</span>
+<span class="fc" id="L24">                .toList();</span>
+    }
+
+    /**
+     * Cierra el semestre actual.
+     *
+     * @param closedSemesters cantidad de semestres ya cerrados, para numerar la etiqueta por defecto
+     * @throws IllegalStateException si no hay cursos o alguno no archivado tiene notas pendientes
+     */
+    public Semester close(String id, String label, List&lt;Course&gt; activeCourses, int closedSemesters) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (activeCourses.isEmpty()) {</span>
+<span class="fc" id="L35">            throw new IllegalStateException(&quot;No hay cursos activos para cerrar el semestre&quot;);</span>
+        }
+<span class="fc" id="L37">        List&lt;Course&gt; pending = incompleteCourses(activeCourses);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (!pending.isEmpty()) {</span>
+<span class="fc" id="L39">            String names = String.join(&quot;, &quot;, pending.stream().map(Course::name).toList());</span>
+<span class="fc" id="L40">            throw new IllegalStateException(&quot;No puedes cerrar el semestre: hay cursos con notas pendientes: &quot; + names);</span>
+        }
+<span class="pc bpc" id="L42" title="1 of 4 branches missed.">        String finalLabel = (label == null || label.isBlank()) ? &quot;Semestre &quot; + (closedSemesters + 1) : label;</span>
+<span class="fc" id="L43">        return new Semester(id, finalLabel, clock.millis(), activeCourses);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

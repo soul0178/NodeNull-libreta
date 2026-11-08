@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SemesterApplicationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.application</a> &gt; <span class="el_source">SemesterApplicationService.java</span></div><h1>SemesterApplicationService.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.application;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.Semester;
+import com.nodenull.libreta.domain.repository.CourseRepository;
+import com.nodenull.libreta.domain.repository.SemesterRepository;
+import com.nodenull.libreta.domain.service.SemesterService;
+import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/** Casos de uso de semestres: cerrar el semestre actual, reabrir uno cerrado y listarlos. */
+@Service
+@Transactional
+public class SemesterApplicationService {
+
+    private final CourseRepository courses;
+    private final SemesterRepository semesters;
+    private final IdGenerator ids;
+    private final SemesterService semesterService;
+
+    public SemesterApplicationService(CourseRepository courses, SemesterRepository semesters,
+<span class="fc" id="L23">                                      IdGenerator ids, SemesterService semesterService) {</span>
+<span class="fc" id="L24">        this.courses = courses;</span>
+<span class="fc" id="L25">        this.semesters = semesters;</span>
+<span class="fc" id="L26">        this.ids = ids;</span>
+<span class="fc" id="L27">        this.semesterService = semesterService;</span>
+<span class="fc" id="L28">    }</span>
+
+    /** Cierra el semestre actual: guarda un snapshot de los cursos y vacía la lista activa. */
+    public Semester close(String label) {
+<span class="fc" id="L32">        List&lt;Course&gt; active = courses.findAll();</span>
+<span class="fc" id="L33">        int alreadyClosed = (int) semesters.count();</span>
+<span class="fc" id="L34">        String id = ids.next();</span>
+<span class="fc" id="L35">        Semester semester = semesterService.close(id, label, active, alreadyClosed);</span>
+<span class="fc" id="L36">        semesters.save(semester);</span>
+<span class="fc" id="L37">        active.forEach(course -&gt; courses.deleteById(course.id()));</span>
+<span class="fc" id="L38">        return semester;</span>
+    }
+
+    /** Reabre un semestre: sus cursos vuelven a la lista activa y el semestre se elimina. */
+    public List&lt;Course&gt; reopen(String semesterId) {
+<span class="fc" id="L43">        Semester semester = semesters.findById(semesterId)</span>
+<span class="fc" id="L44">                .orElseThrow(() -&gt; new SemesterNotFoundException(semesterId));</span>
+<span class="fc" id="L45">        List&lt;Course&gt; restored = semester.reopen();</span>
+<span class="fc" id="L46">        semesters.deleteById(semesterId);</span>
+<span class="fc" id="L47">        restored.forEach(courses::save);</span>
+<span class="fc" id="L48">        return restored;</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;Semester&gt; list() {
+<span class="fc" id="L53">        return semesters.findAllNewestFirst();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

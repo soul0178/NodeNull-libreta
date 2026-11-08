@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SemesterCourseJpaEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.infrastructure.persistence</a> &gt; <span class="el_source">SemesterCourseJpaEntity.java</span></div><h1>SemesterCourseJpaEntity.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.infrastructure.persistence;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+/** Fila de un curso dentro de un semestre cerrado (snapshot). */
+@Entity
+@Table(name = &quot;semester_courses&quot;)
+public class SemesterCourseJpaEntity extends CourseColumns {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pk;
+
+    @Column(name = &quot;course_id&quot;, nullable = false)
+    private String courseId;
+
+<span class="fc" id="L22">    protected SemesterCourseJpaEntity() {</span>
+        // requerido por JPA
+<span class="fc" id="L24">    }</span>
+
+<span class="fc" id="L26">    public SemesterCourseJpaEntity(String courseId) {</span>
+<span class="fc" id="L27">        this.courseId = courseId;</span>
+<span class="fc" id="L28">    }</span>
+
+    public String getCourseId() {
+<span class="fc" id="L31">        return courseId;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

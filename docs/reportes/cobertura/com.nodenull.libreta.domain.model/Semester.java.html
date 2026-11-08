@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Semester.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.model</a> &gt; <span class="el_source">Semester.java</span></div><h1>Semester.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.model;
+
+import java.util.List;
+
+/**
+ * Agregado raíz: semestre cerrado, con una copia (snapshot) de sus cursos.
+ * Se crea mediante {@code SemesterService.close(...)}, que valida las reglas de cierre.
+ */
+public final class Semester {
+
+    private final String id;
+    private final String label;
+    private final long closedAt;
+    private final List&lt;Course&gt; courses;
+
+<span class="fc" id="L16">    public Semester(String id, String label, long closedAt, List&lt;Course&gt; courses) {</span>
+<span class="pc bpc" id="L17" title="2 of 4 branches missed.">        if (id == null || id.isBlank()) {</span>
+<span class="nc" id="L18">            throw new IllegalArgumentException(&quot;El id del semestre es obligatorio&quot;);</span>
+        }
+<span class="pc bpc" id="L20" title="1 of 4 branches missed.">        if (label == null || label.isBlank()) {</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;La etiqueta del semestre es obligatoria&quot;);</span>
+        }
+<span class="pc bpc" id="L23" title="1 of 4 branches missed.">        if (courses == null || courses.isEmpty()) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;Un semestre cerrado debe tener al menos un curso&quot;);</span>
+        }
+<span class="fc" id="L26">        this.id = id;</span>
+<span class="fc" id="L27">        this.label = label.trim();</span>
+<span class="fc" id="L28">        this.closedAt = closedAt;</span>
+<span class="fc" id="L29">        this.courses = courses.stream().map(Course::copy).toList();</span>
+<span class="fc" id="L30">    }</span>
+
+    public String id() {
+<span class="fc" id="L33">        return id;</span>
+    }
+
+    public String label() {
+<span class="fc" id="L37">        return label;</span>
+    }
+
+    public long closedAt() {
+<span class="fc" id="L41">        return closedAt;</span>
+    }
+
+    /** Cursos del semestre (copias de solo lectura de lo guardado). */
+    public List&lt;Course&gt; courses() {
+<span class="fc" id="L46">        return courses;</span>
+    }
+
+    /** Cursos para volver a la lista activa al reabrir el semestre: copias editables. */
+    public List&lt;Course&gt; reopen() {
+<span class="fc" id="L51">        return courses.stream().map(Course::copy).toList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

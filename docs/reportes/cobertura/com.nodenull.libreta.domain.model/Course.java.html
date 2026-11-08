@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Course.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.model</a> &gt; <span class="el_source">Course.java</span></div><h1>Course.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.model;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Agregado raíz: un curso con sus seis evaluaciones, pesos, meta y sustitutorio.
+ * Protege las invariantes RN-01 (pesos suman 100 %) y RN-02 (notas enteras 0-20).
+ */
+public final class Course {
+
+    public static final int MIN_GRADE = 0;
+    public static final int MAX_GRADE = 20;
+    public static final int DEFAULT_GOAL = 11;
+    /** Tolerancia para la suma de pesos: 0,5 % (en fracción). */
+    public static final double WEIGHT_TOLERANCE = 0.005;
+
+    private final String id;
+    private String name;
+    private String careerId;
+    private int credits;
+<span class="fc" id="L23">    private int goal = DEFAULT_GOAL;</span>
+    private boolean archived;
+    private double[] weights;
+<span class="fc" id="L26">    private final Integer[] grades = new Integer[EvaluationSlot.COUNT];</span>
+    private Substitute substitute;
+
+<span class="fc" id="L29">    private Course(String id, String name, String careerId, int credits, double[] weights) {</span>
+<span class="fc" id="L30">        this.id = requireText(id, &quot;El id del curso es obligatorio&quot;);</span>
+<span class="fc" id="L31">        this.name = requireText(name, &quot;El nombre del curso es obligatorio&quot;);</span>
+<span class="fc" id="L32">        this.careerId = requireText(careerId, &quot;El curso debe pertenecer a una carrera&quot;);</span>
+<span class="fc" id="L33">        this.credits = requireCredits(credits);</span>
+<span class="fc" id="L34">        this.weights = validatedWeights(weights);</span>
+<span class="fc" id="L35">    }</span>
+
+    /** Fábrica: valida todas las invariantes antes de crear el curso. */
+    public static Course create(String id, String name, String careerId, int credits, double[] weights) {
+<span class="fc" id="L39">        return new Course(id, name, careerId, credits, weights);</span>
+    }
+
+    // ---------- comportamiento ----------
+
+    public void rename(String newName) {
+<span class="fc" id="L45">        this.name = requireText(newName, &quot;El nombre del curso es obligatorio&quot;);</span>
+<span class="fc" id="L46">    }</span>
+
+    public void changeCareer(String newCareerId) {
+<span class="fc" id="L49">        this.careerId = requireText(newCareerId, &quot;El curso debe pertenecer a una carrera&quot;);</span>
+<span class="fc" id="L50">    }</span>
+
+    public void changeCredits(int newCredits) {
+<span class="fc" id="L53">        this.credits = requireCredits(newCredits);</span>
+<span class="fc" id="L54">    }</span>
+
+    public void changeWeights(double[] newWeights) {
+<span class="fc" id="L57">        this.weights = validatedWeights(newWeights);</span>
+<span class="fc" id="L58">    }</span>
+
+    /** Registra la nota de una evaluación; {@code null} la borra. */
+    public void setGrade(EvaluationSlot slot, Integer grade) {
+<span class="fc" id="L62">        Objects.requireNonNull(slot, &quot;La evaluación es obligatoria&quot;);</span>
+<span class="fc bfc" id="L63" title="All 6 branches covered.">        if (grade != null &amp;&amp; (grade &lt; MIN_GRADE || grade &gt; MAX_GRADE)) {</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException(&quot;La nota debe estar entre 0 y 20&quot;);</span>
+        }
+<span class="fc" id="L66">        grades[slot.index()] = grade;</span>
+<span class="fc" id="L67">    }</span>
+
+    public void changeGoal(int newGoal) {
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">        if (newGoal &lt; MIN_GRADE || newGoal &gt; MAX_GRADE) {</span>
+<span class="fc" id="L71">            throw new IllegalArgumentException(&quot;La meta debe estar entre 0 y 20&quot;);</span>
+        }
+<span class="fc" id="L73">        this.goal = newGoal;</span>
+<span class="fc" id="L74">    }</span>
+
+    public void archive() {
+<span class="fc" id="L77">        this.archived = true;</span>
+<span class="fc" id="L78">    }</span>
+
+    public void unarchive() {
+<span class="fc" id="L81">        this.archived = false;</span>
+<span class="fc" id="L82">    }</span>
+
+    public void setSubstitute(Substitute substitute) {
+<span class="fc" id="L85">        this.substitute = substitute;</span>
+<span class="fc" id="L86">    }</span>
+
+    public void clearSubstitute() {
+<span class="fc" id="L89">        this.substitute = null;</span>
+<span class="fc" id="L90">    }</span>
+
+    /** Copia independiente del curso (para guardar el semestre sin que cambios posteriores lo afecten). */
+    public Course copy() {
+<span class="fc" id="L94">        Course copy = new Course(id, name, careerId, credits, weights);</span>
+<span class="fc" id="L95">        copy.goal = goal;</span>
+<span class="fc" id="L96">        copy.archived = archived;</span>
+<span class="fc" id="L97">        copy.substitute = substitute; // record inmutable: se puede compartir</span>
+<span class="fc" id="L98">        System.arraycopy(grades, 0, copy.grades, 0, grades.length);</span>
+<span class="fc" id="L99">        return copy;</span>
+    }
+
+    // ---------- consultas ----------
+
+    public String id() {
+<span class="fc" id="L105">        return id;</span>
+    }
+
+    public String name() {
+<span class="fc" id="L109">        return name;</span>
+    }
+
+    public String careerId() {
+<span class="fc" id="L113">        return careerId;</span>
+    }
+
+    public int credits() {
+<span class="fc" id="L117">        return credits;</span>
+    }
+
+    public int goal() {
+<span class="fc" id="L121">        return goal;</span>
+    }
+
+    public boolean isArchived() {
+<span class="fc" id="L125">        return archived;</span>
+    }
+
+    public Integer gradeAt(EvaluationSlot slot) {
+<span class="fc" id="L129">        return grades[slot.index()];</span>
+    }
+
+    public double weightAt(EvaluationSlot slot) {
+<span class="fc" id="L133">        return weights[slot.index()];</span>
+    }
+
+    /** Copia defensiva de los pesos (fracciones que suman 1). */
+    public double[] weights() {
+<span class="fc" id="L138">        return weights.clone();</span>
+    }
+
+    public Optional&lt;Substitute&gt; substitute() {
+<span class="fc" id="L142">        return Optional.ofNullable(substitute);</span>
+    }
+
+    // ---------- invariantes ----------
+
+    private static double[] validatedWeights(double[] candidate) {
+<span class="pc bpc" id="L148" title="1 of 4 branches missed.">        if (candidate == null || candidate.length != EvaluationSlot.COUNT) {</span>
+<span class="fc" id="L149">            throw new IllegalArgumentException(&quot;Se requieren exactamente 6 pesos&quot;);</span>
+        }
+<span class="fc" id="L151">        double sum = 0;</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        for (double w : candidate) {</span>
+<span class="pc bpc" id="L153" title="1 of 4 branches missed.">            if (w &lt; 0 || w &gt; 1) {</span>
+<span class="fc" id="L154">                throw new IllegalArgumentException(&quot;Cada peso debe estar entre 0 y 100 %&quot;);</span>
+            }
+<span class="fc" id="L156">            sum += w;</span>
+        }
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        if (Math.abs(sum - 1.0) &gt; WEIGHT_TOLERANCE) {</span>
+<span class="fc" id="L159">            throw new IllegalArgumentException(&quot;Los pesos deben sumar 100 %&quot;);</span>
+        }
+<span class="fc" id="L161">        return Arrays.copyOf(candidate, candidate.length);</span>
+    }
+
+    private static int requireCredits(int credits) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (credits &lt; 0) {</span>
+<span class="fc" id="L166">            throw new IllegalArgumentException(&quot;Los créditos no pueden ser negativos&quot;);</span>
+        }
+<span class="fc" id="L168">        return credits;</span>
+    }
+
+    private static String requireText(String value, String message) {
+<span class="pc bpc" id="L172" title="1 of 4 branches missed.">        if (value == null || value.isBlank()) {</span>
+<span class="fc" id="L173">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="fc" id="L175">        return value.trim();</span>
+    }
+
+    @Override
+    public boolean equals(Object other) {
+<span class="pc bpc" id="L180" title="2 of 4 branches missed.">        return other instanceof Course course &amp;&amp; id.equals(course.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L185">        return Objects.hash(id);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

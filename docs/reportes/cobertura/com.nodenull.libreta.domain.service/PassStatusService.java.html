@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PassStatusService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.service</a> &gt; <span class="el_source">PassStatusService.java</span></div><h1>PassStatusService.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.service;
+
+import com.nodenull.libreta.domain.model.Course;
+import com.nodenull.libreta.domain.model.PassResult;
+import com.nodenull.libreta.domain.model.PassStatus;
+
+/** Servicio de dominio: determina si el estudiante aprueba un curso (port de passStatus de calc.js). */
+public class PassStatusService {
+
+    private final GradeCalculator calculator;
+
+<span class="fc" id="L12">    public PassStatusService(GradeCalculator calculator) {</span>
+<span class="fc" id="L13">        this.calculator = calculator;</span>
+<span class="fc" id="L14">    }</span>
+
+    public PassResult evaluate(Course course) {
+<span class="fc" id="L17">        double accumulated = calculator.accumulated(course);</span>
+<span class="fc" id="L18">        double remaining = calculator.remainingWeight(course);</span>
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (remaining &lt;= GradeCalculator.PENDING_EPSILON) {</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            return PassResult.of(accumulated &gt;= GradeCalculator.PASS_GRADE</span>
+<span class="fc" id="L22">                    ? PassStatus.APROBADO : PassStatus.DESAPROBADO);</span>
+        }
+<span class="fc" id="L24">        double maxPossible = accumulated + remaining * Course.MAX_GRADE;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (maxPossible &lt; GradeCalculator.PASS_GRADE) {</span>
+<span class="fc" id="L26">            return PassResult.of(PassStatus.NO_PODRAS_APROBAR);</span>
+        }
+<span class="fc" id="L28">        double neededRaw = (GradeCalculator.PASS_GRADE - accumulated) / remaining;</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (neededRaw &lt;= 0) {</span>
+<span class="fc" id="L30">            return PassResult.of(PassStatus.APROBACION_ASEGURADA);</span>
+        }
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if (neededRaw &gt; Course.MAX_GRADE) {</span>
+<span class="nc" id="L33">            return PassResult.of(PassStatus.MUY_DIFICIL_APROBAR);</span>
+        }
+<span class="fc" id="L35">        int needed = Math.min(Course.MAX_GRADE, (int) Math.ceil(neededRaw - 1e-9));</span>
+<span class="fc" id="L36">        return new PassResult(PassStatus.EN_CURSO, needed);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

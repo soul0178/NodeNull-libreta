@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Substitute.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.model</a> &gt; <span class="el_source">Substitute.java</span></div><h1>Substitute.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.model;
+
+/**
+ * Examen sustitutorio aplicado a un curso: reemplaza la nota de {@code target}.
+ *
+ * @param value         nota obtenida en el sustitutorio (0-20)
+ * @param target        evaluación que reemplaza
+ * @param originalValue nota original de la evaluación reemplazada (puede ser null)
+ */
+public record Substitute(int value, EvaluationSlot target, Integer originalValue) {
+
+<span class="fc" id="L12">    public Substitute {</span>
+<span class="pc bpc" id="L13" title="1 of 4 branches missed.">        if (value &lt; Course.MIN_GRADE || value &gt; Course.MAX_GRADE) {</span>
+<span class="fc" id="L14">            throw new IllegalArgumentException(&quot;La nota del sustitutorio debe estar entre 0 y 20&quot;);</span>
+        }
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        if (target == null) {</span>
+<span class="fc" id="L17">            throw new IllegalArgumentException(&quot;El sustitutorio debe indicar la evaluación que reemplaza&quot;);</span>
+        }
+<span class="fc" id="L19">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

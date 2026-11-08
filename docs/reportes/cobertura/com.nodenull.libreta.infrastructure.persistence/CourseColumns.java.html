@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CourseColumns.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.infrastructure.persistence</a> &gt; <span class="el_source">CourseColumns.java</span></div><h1>CourseColumns.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.infrastructure.persistence;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+
+/**
+ * Columnas comunes de un curso, compartidas por la tabla de cursos activos y la de cursos de un semestre.
+ * Pesos y notas se guardan como texto separado por comas (6 valores; nota vacía = sin ingresar).
+ */
+@MappedSuperclass
+<span class="fc" id="L11">public abstract class CourseColumns {</span>
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(name = &quot;career_id&quot;, nullable = false)
+    private String careerId;
+
+    @Column(nullable = false)
+    private int credits;
+
+    @Column(nullable = false)
+    private int goal;
+
+    @Column(nullable = false)
+    private boolean archived;
+
+    @Column(nullable = false, length = 120)
+    private String weights;
+
+    @Column(nullable = false, length = 120)
+    private String grades;
+
+    @Column(name = &quot;substitute_value&quot;)
+    private Integer substituteValue;
+
+    @Column(name = &quot;substitute_target&quot;)
+    private Integer substituteTarget;
+
+    @Column(name = &quot;substitute_original&quot;)
+    private Integer substituteOriginal;
+
+    public String getName() {
+<span class="fc" id="L44">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L48">        this.name = name;</span>
+<span class="fc" id="L49">    }</span>
+
+    public String getCareerId() {
+<span class="fc" id="L52">        return careerId;</span>
+    }
+
+    public void setCareerId(String careerId) {
+<span class="fc" id="L56">        this.careerId = careerId;</span>
+<span class="fc" id="L57">    }</span>
+
+    public int getCredits() {
+<span class="fc" id="L60">        return credits;</span>
+    }
+
+    public void setCredits(int credits) {
+<span class="fc" id="L64">        this.credits = credits;</span>
+<span class="fc" id="L65">    }</span>
+
+    public int getGoal() {
+<span class="fc" id="L68">        return goal;</span>
+    }
+
+    public void setGoal(int goal) {
+<span class="fc" id="L72">        this.goal = goal;</span>
+<span class="fc" id="L73">    }</span>
+
+    public boolean isArchived() {
+<span class="fc" id="L76">        return archived;</span>
+    }
+
+    public void setArchived(boolean archived) {
+<span class="fc" id="L80">        this.archived = archived;</span>
+<span class="fc" id="L81">    }</span>
+
+    public String getWeights() {
+<span class="fc" id="L84">        return weights;</span>
+    }
+
+    public void setWeights(String weights) {
+<span class="fc" id="L88">        this.weights = weights;</span>
+<span class="fc" id="L89">    }</span>
+
+    public String getGrades() {
+<span class="fc" id="L92">        return grades;</span>
+    }
+
+    public void setGrades(String grades) {
+<span class="fc" id="L96">        this.grades = grades;</span>
+<span class="fc" id="L97">    }</span>
+
+    public Integer getSubstituteValue() {
+<span class="fc" id="L100">        return substituteValue;</span>
+    }
+
+    public void setSubstituteValue(Integer substituteValue) {
+<span class="fc" id="L104">        this.substituteValue = substituteValue;</span>
+<span class="fc" id="L105">    }</span>
+
+    public Integer getSubstituteTarget() {
+<span class="fc" id="L108">        return substituteTarget;</span>
+    }
+
+    public void setSubstituteTarget(Integer substituteTarget) {
+<span class="fc" id="L112">        this.substituteTarget = substituteTarget;</span>
+<span class="fc" id="L113">    }</span>
+
+    public Integer getSubstituteOriginal() {
+<span class="fc" id="L116">        return substituteOriginal;</span>
+    }
+
+    public void setSubstituteOriginal(Integer substituteOriginal) {
+<span class="fc" id="L120">        this.substituteOriginal = substituteOriginal;</span>
+<span class="fc" id="L121">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

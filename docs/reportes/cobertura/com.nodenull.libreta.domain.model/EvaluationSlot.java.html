@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EvaluationSlot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">libreta-backend</a> &gt; <a href="index.source.html" class="el_package">com.nodenull.libreta.domain.model</a> &gt; <span class="el_source">EvaluationSlot.java</span></div><h1>EvaluationSlot.java</h1><pre class="source lang-java linenums">package com.nodenull.libreta.domain.model;
+
+/**
+ * Las seis evaluaciones de un curso, en orden: C1, P1, C2, P2, C3, P3.
+ * La continua y el parcial de una misma unidad miden el mismo tramo del curso (RN-04).
+ */
+<span class="fc" id="L7">public enum EvaluationSlot {</span>
+<span class="fc" id="L8">    CONTINUA_1(EvaluationType.CONTINUA),</span>
+<span class="fc" id="L9">    PARCIAL_1(EvaluationType.PARCIAL),</span>
+<span class="fc" id="L10">    CONTINUA_2(EvaluationType.CONTINUA),</span>
+<span class="fc" id="L11">    PARCIAL_2(EvaluationType.PARCIAL),</span>
+<span class="fc" id="L12">    CONTINUA_3(EvaluationType.CONTINUA),</span>
+<span class="fc" id="L13">    PARCIAL_3(EvaluationType.PARCIAL);</span>
+
+    public static final int COUNT = 6;
+
+    private final EvaluationType type;
+
+<span class="fc" id="L19">    EvaluationSlot(EvaluationType type) {</span>
+<span class="fc" id="L20">        this.type = type;</span>
+<span class="fc" id="L21">    }</span>
+
+    public EvaluationType type() {
+<span class="fc" id="L24">        return type;</span>
+    }
+
+    /** Unidad a la que pertenece: C1,P1 = 1; C2,P2 = 2; C3,P3 = 3. */
+    public int unit() {
+<span class="fc" id="L29">        return ordinal() / 2 + 1;</span>
+    }
+
+    public int index() {
+<span class="fc" id="L33">        return ordinal();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

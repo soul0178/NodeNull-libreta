@@ -1,0 +1,264 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.nodenull:libreta-backend >--------------------
+[INFO] Building libreta-backend 0.2.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ libreta-backend ---
+[INFO] Deleting /home/usuario/Descargas/proyecto_ult_ver/backend/target
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (prepare-agent) @ libreta-backend ---
+[INFO] argLine set to -javaagent:/home/usuario/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/usuario/Descargas/proyecto_ult_ver/backend/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ libreta-backend ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ libreta-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 40 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ libreta-backend ---
+[INFO] skip non existing resourceDirectory /home/usuario/Descargas/proyecto_ult_ver/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ libreta-backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 18 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ libreta-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.nodenull.libreta.infrastructure.persistence.CourseRepositoryAdapterTest
+16:03:13.888 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.nodenull.libreta.infrastructure.persistence.CourseRepositoryAdapterTest]: CourseRepositoryAdapterTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:03:14.013 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.nodenull.libreta.LibretaApplication for test class com.nodenull.libreta.infrastructure.persistence.CourseRepositoryAdapterTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-11-08T16:03:14.370-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.CourseRepositoryAdapterTest    : Starting CourseRepositoryAdapterTest using Java 21.0.12.1 with PID 34033 (started by usuario in /home/usuario/Descargas/proyecto_ult_ver/backend)
+2026-11-08T16:03:14.371-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.CourseRepositoryAdapterTest    : No active profile set, falling back to 1 default profile: "default"
+2026-11-08T16:03:14.724-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-08T16:03:14.795-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 2 JPA repository interfaces.
+2026-11-08T16:03:14.884-05:00  INFO 34033 --- [libreta-backend] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-08T16:03:15.038-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:ca9288d8-0931-4010-a690-388450aa5753;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-08T16:03:15.339-05:00  INFO 34033 --- [libreta-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-11-08T16:03:15.397-05:00  INFO 34033 --- [libreta-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-11-08T16:03:15.425-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-11-08T16:03:15.670-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-08T16:03:16.626-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table courses (id varchar(255) not null, archived boolean not null, career_id varchar(255) not null, credits integer not null, goal integer not null, grades varchar(120) not null, name varchar(255) not null, substitute_original integer, substitute_target integer, substitute_value integer, weights varchar(120) not null, created_at bigint not null, primary key (id))
+Hibernate: create table semester_courses (pk bigint generated by default as identity, archived boolean not null, career_id varchar(255) not null, credits integer not null, goal integer not null, grades varchar(120) not null, name varchar(255) not null, substitute_original integer, substitute_target integer, substitute_value integer, weights varchar(120) not null, course_id varchar(255) not null, semester_id varchar(255) not null, primary key (pk))
+Hibernate: create table semesters (id varchar(255) not null, closed_at bigint not null, label varchar(255) not null, primary key (id))
+Hibernate: alter table if exists semester_courses add constraint FK9pkfyxe1mq2k4n4n1y5t8rag0 foreign key (semester_id) references semesters
+2026-11-08T16:03:16.712-05:00  INFO 34033 --- [libreta-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-08T16:03:17.009-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.CourseRepositoryAdapterTest    : Started CourseRepositoryAdapterTest in 2.926 seconds (process running for 3.824)
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 order by cje1_0.created_at,cje1_0.id
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: delete from courses where id=?
+Hibernate: select count(*) from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.career_id=? order by cje1_0.created_at,cje1_0.id
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select count(*) from courses cje1_0 where cje1_0.id=?
+Hibernate: select count(*) from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: insert into courses (archived,career_id,created_at,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,id) values (?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: update courses set archived=?,career_id=?,created_at=?,credits=?,goal=?,grades=?,name=?,substitute_original=?,substitute_target=?,substitute_value=?,weights=? where id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 order by cje1_0.created_at,cje1_0.id
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+Hibernate: select cje1_0.id,cje1_0.archived,cje1_0.career_id,cje1_0.created_at,cje1_0.credits,cje1_0.goal,cje1_0.grades,cje1_0.name,cje1_0.substitute_original,cje1_0.substitute_target,cje1_0.substitute_value,cje1_0.weights from courses cje1_0 where cje1_0.id=?
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.142 s -- in com.nodenull.libreta.infrastructure.persistence.CourseRepositoryAdapterTest
+[INFO] Running com.nodenull.libreta.infrastructure.persistence.SemesterRepositoryAdapterTest
+2026-11-08T16:03:17.869-05:00  INFO 34033 --- [libreta-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nodenull.libreta.infrastructure.persistence.SemesterRepositoryAdapterTest]: SemesterRepositoryAdapterTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-08T16:03:17.874-05:00  INFO 34033 --- [libreta-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nodenull.libreta.LibretaApplication for test class com.nodenull.libreta.infrastructure.persistence.SemesterRepositoryAdapterTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-11-08T16:03:17.897-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.SemesterRepositoryAdapterTest  : Starting SemesterRepositoryAdapterTest using Java 21.0.12.1 with PID 34033 (started by usuario in /home/usuario/Descargas/proyecto_ult_ver/backend)
+2026-11-08T16:03:17.898-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.SemesterRepositoryAdapterTest  : No active profile set, falling back to 1 default profile: "default"
+2026-11-08T16:03:17.949-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-08T16:03:17.954-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 2 JPA repository interfaces.
+2026-11-08T16:03:17.961-05:00  INFO 34033 --- [libreta-backend] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-11-08T16:03:17.970-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:76d55a56-e44a-49b3-a812-27421848614e;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-11-08T16:03:17.981-05:00  INFO 34033 --- [libreta-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-11-08T16:03:17.982-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-11-08T16:03:17.986-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-08T16:03:18.041-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table courses (id varchar(255) not null, archived boolean not null, career_id varchar(255) not null, credits integer not null, goal integer not null, grades varchar(120) not null, name varchar(255) not null, substitute_original integer, substitute_target integer, substitute_value integer, weights varchar(120) not null, created_at bigint not null, primary key (id))
+Hibernate: create table semester_courses (pk bigint generated by default as identity, archived boolean not null, career_id varchar(255) not null, credits integer not null, goal integer not null, grades varchar(120) not null, name varchar(255) not null, substitute_original integer, substitute_target integer, substitute_value integer, weights varchar(120) not null, course_id varchar(255) not null, semester_id varchar(255) not null, primary key (pk))
+Hibernate: create table semesters (id varchar(255) not null, closed_at bigint not null, label varchar(255) not null, primary key (id))
+Hibernate: alter table if exists semester_courses add constraint FK9pkfyxe1mq2k4n4n1y5t8rag0 foreign key (semester_id) references semesters
+2026-11-08T16:03:18.046-05:00  INFO 34033 --- [libreta-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-08T16:03:18.077-05:00  INFO 34033 --- [libreta-backend] [           main] c.n.l.i.p.SemesterRepositoryAdapterTest  : Started SemesterRepositoryAdapterTest in 0.201 seconds (process running for 4.892)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label from semesters sje1_0 order by sje1_0.closed_at desc
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label from semesters sje1_0 order by sje1_0.closed_at desc
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: delete from semester_courses where pk=?
+Hibernate: delete from semester_courses where pk=?
+Hibernate: delete from semesters where id=?
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label from semesters sje1_0 order by sje1_0.closed_at desc
+Hibernate: select count(*) from semesters sje1_0
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select count(*) from semesters sje1_0
+Hibernate: select sje1_0.id,sje1_0.closed_at,sje1_0.label,c1_0.semester_id,c1_0.pk,c1_0.archived,c1_0.career_id,c1_0.course_id,c1_0.credits,c1_0.goal,c1_0.grades,c1_0.name,c1_0.substitute_original,c1_0.substitute_target,c1_0.substitute_value,c1_0.weights from semesters sje1_0 left join semester_courses c1_0 on sje1_0.id=c1_0.semester_id where sje1_0.id=?
+Hibernate: insert into semesters (closed_at,label,id) values (?,?,?)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into semester_courses (semester_id,archived,career_id,course_id,credits,goal,grades,name,substitute_original,substitute_target,substitute_value,weights,pk) values (?,?,?,?,?,?,?,?,?,?,?,?,default)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.286 s -- in com.nodenull.libreta.infrastructure.persistence.SemesterRepositoryAdapterTest
+[INFO] Running com.nodenull.libreta.domain.service.SemesterServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in com.nodenull.libreta.domain.service.SemesterServiceTest
+[INFO] Running com.nodenull.libreta.domain.service.SubstituteServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.nodenull.libreta.domain.service.SubstituteServiceTest
+[INFO] Running com.nodenull.libreta.domain.service.GradeCalculatorTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in com.nodenull.libreta.domain.service.GradeCalculatorTest
+[INFO] Running com.nodenull.libreta.domain.service.RoundingAndFinalValueTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in com.nodenull.libreta.domain.service.RoundingAndFinalValueTest
+[INFO] Running com.nodenull.libreta.domain.service.PassStatusServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.nodenull.libreta.domain.service.PassStatusServiceTest
+[INFO] Running com.nodenull.libreta.domain.service.GoalStatusServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.nodenull.libreta.domain.service.GoalStatusServiceTest
+[INFO] Running com.nodenull.libreta.domain.model.CareerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.nodenull.libreta.domain.model.CareerTest
+[INFO] Running com.nodenull.libreta.domain.model.CourseTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in com.nodenull.libreta.domain.model.CourseTest
+[INFO] Running com.nodenull.libreta.domain.model.EvaluationSlotTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in com.nodenull.libreta.domain.model.EvaluationSlotTest
+[INFO] Running com.nodenull.libreta.domain.model.DomainInvariantsExtraTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.nodenull.libreta.domain.model.DomainInvariantsExtraTest
+[INFO] Running com.nodenull.libreta.application.SemesterApplicationServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.500 s -- in com.nodenull.libreta.application.SemesterApplicationServiceTest
+[INFO] Running com.nodenull.libreta.application.ApplicationServicesIntegrationTest
+2026-11-08T16:03:18.739-05:00  INFO 34033 --- [libreta-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nodenull.libreta.application.ApplicationServicesIntegrationTest]: ApplicationServicesIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-08T16:03:18.763-05:00  INFO 34033 --- [libreta-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nodenull.libreta.LibretaApplication for test class com.nodenull.libreta.application.ApplicationServicesIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-11-08T16:03:18.830-05:00  INFO 34033 --- [libreta-backend] [           main] n.l.a.ApplicationServicesIntegrationTest : Starting ApplicationServicesIntegrationTest using Java 21.0.12.1 with PID 34033 (started by usuario in /home/usuario/Descargas/proyecto_ult_ver/backend)
+2026-11-08T16:03:18.830-05:00  INFO 34033 --- [libreta-backend] [           main] n.l.a.ApplicationServicesIntegrationTest : No active profile set, falling back to 1 default profile: "default"
+2026-11-08T16:03:19.534-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-08T16:03:19.549-05:00  INFO 34033 --- [libreta-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 2 JPA repository interfaces.
+2026-11-08T16:03:20.077-05:00  INFO 34033 --- [libreta-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-11-08T16:03:20.079-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-11-08T16:03:20.092-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-08T16:03:20.094-05:00  INFO 34033 --- [libreta-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-08T16:03:20.106-05:00  INFO 34033 --- [libreta-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn20: url=jdbc:h2:mem:libreta user=SA
+2026-11-08T16:03:20.108-05:00  INFO 34033 --- [libreta-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-08T16:03:20.251-05:00  INFO 34033 --- [libreta-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-08T16:03:20.292-05:00  INFO 34033 --- [libreta-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-08T16:03:20.637-05:00  WARN 34033 --- [libreta-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-08T16:03:21.386-05:00  INFO 34033 --- [libreta-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-11-08T16:03:21.446-05:00  INFO 34033 --- [libreta-backend] [           main] n.l.a.ApplicationServicesIntegrationTest : Started ApplicationServicesIntegrationTest in 2.665 seconds (process running for 8.261)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.868 s -- in com.nodenull.libreta.application.ApplicationServicesIntegrationTest
+[INFO] Running com.nodenull.libreta.application.CourseApplicationServiceTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in com.nodenull.libreta.application.CourseApplicationServiceTest
+[INFO] Running com.nodenull.libreta.LibretaApplicationTests
+2026-11-08T16:03:21.624-05:00  INFO 34033 --- [libreta-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nodenull.libreta.LibretaApplicationTests]: LibretaApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-08T16:03:21.626-05:00  INFO 34033 --- [libreta-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nodenull.libreta.LibretaApplication for test class com.nodenull.libreta.LibretaApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in com.nodenull.libreta.LibretaApplicationTests
+[INFO] Running com.nodenull.libreta.architecture.LayerDependencyTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in com.nodenull.libreta.architecture.LayerDependencyTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 134, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- surefire-report:3.2.5:report-only (surefire-html) @ libreta-backend ---
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[WARNING] Unable to locate Test Source XRef to link to - DISABLED
+[INFO] 
+[INFO] --- jacoco:0.8.12:report (report) @ libreta-backend ---
+[INFO] Loading execution data file /home/usuario/Descargas/proyecto_ult_ver/backend/target/jacoco.exec
+[INFO] Analyzed bundle 'libreta-backend' with 33 classes
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ libreta-backend ---
+[INFO] Building jar: /home/usuario/Descargas/proyecto_ult_ver/backend/target/libreta-backend-0.2.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.3.5:repackage (repackage) @ libreta-backend ---
+[INFO] Replacing main artifact /home/usuario/Descargas/proyecto_ult_ver/backend/target/libreta-backend-0.2.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/usuario/Descargas/proyecto_ult_ver/backend/target/libreta-backend-0.2.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.12:check (check) @ libreta-backend ---
+[INFO] Loading execution data file /home/usuario/Descargas/proyecto_ult_ver/backend/target/jacoco.exec
+[INFO] Analyzed bundle 'libreta-backend' with 23 classes
+[INFO] All coverage checks have been met.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.482 s
+[INFO] Finished at: 2026-11-08T16:03:22-05:00
+[INFO] ------------------------------------------------------------------------

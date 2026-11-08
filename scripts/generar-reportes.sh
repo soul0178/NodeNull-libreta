@@ -7,6 +7,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT/backend"
 
+mkdir -p "$ROOT/docs/reportes"
 mvn -B clean verify | tee "$ROOT/docs/reportes/salida-mvn-verify.txt"
 
 rm -rf "$ROOT/docs/reportes/ejecucion" "$ROOT/docs/reportes/cobertura"
