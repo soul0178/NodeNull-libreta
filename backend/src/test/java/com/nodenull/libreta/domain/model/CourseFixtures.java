@@ -16,6 +16,13 @@ public final class CourseFixtures {
         return Course.create("c-1", "Cálculo III", "career-1", 4, weights);
     }
 
+    /** Curso con id y nombre propios, pesos por defecto y las notas dadas. */
+    public static Course courseNamed(String id, String name, Integer... grades) {
+        Course course = Course.create(id, name, "career-1", 4, DEFAULT_WEIGHTS.clone());
+        applyGrades(course, grades);
+        return course;
+    }
+
     /** Crea un curso con pesos por defecto y las notas dadas (null = sin ingresar). */
     public static Course courseWithGrades(Integer... grades) {
         Course course = course();
